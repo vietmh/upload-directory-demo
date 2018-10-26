@@ -1,0 +1,1 @@
+This demo allow user to drag and drop a folder then choose files to upload. The selected files will be zipped while keeping directory structure then upload onto server.

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-import saveAs from 'file-saver';
+// import saveAs from 'file-saver';
 import { Modal } from 'antd';
 
 import FileSelector from './FileSelector';
@@ -18,14 +18,16 @@ class ZippingUploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      url: '',
       files: [],
       visible: false
     }
-    this.zip = new Zip();
   }
 
   componentDidMount() {
-
+    this.setState({
+      url: this.props.url
+    });
   }
 
   onDrop = (files) => {
@@ -36,15 +38,15 @@ class ZippingUploader extends Component {
   }
 
   submitFiles = (data) => {
-    // let leaves = [];
-    // this.zip = new Zip();
-    // this.getLeaves(leaves, data);
-    // this.zipFile(leaves);
-    // console.log(this.refs.modal);
+    let leaves = [];
+    this.zip = new Zip();
+    this.getLeaves(leaves, data);
+    this.zipThenUploadFile(leaves);
     this.setState({ visible: false });
   }
 
-  zipFile(files) {
+  zipThenUploadFile(files) {
+    let url = this.state.url;
     for (let index = 0; index < files.length; index++) {
       const file = files[index];
       let directories = Utility.getFoldersArray(file);
@@ -57,7 +59,8 @@ class ZippingUploader extends Component {
     }
     this.zip.generateAsync({ type: "blob" })
       .then(function (content) {
-        saveAs(content, "example.zip");
+        Utility.uploadFile(url, content);
+        // saveAs(content, "example.zip");
       });
   }
 
