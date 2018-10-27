@@ -9,15 +9,24 @@ class Utility {
   }
 
   static getListFolders(directoryPath) {
-    return directoryPath.split('/').filter(folder => folder.length > 0);
+    let directoryList = directoryPath.split('/').filter(folder => folder.length > 0);
+    directoryList.unshift("root");
+    return directoryList;
   }
 
   static getFoldersArray(filePath) {
     return this.getListFolders(this.getFolderPath(filePath));
   }
 
-  static uploadFile(url, file) {
-    request.post(url).attach('example.zip', file).then().end();
+  static uploadFile(url, headers, file) {
+    const fileName = (new Date()).getTime() + '.zip';
+    request.post(url)
+      .set(headers)
+      .attach('files', file, fileName)
+      .then(res => {
+        console.log(res);
+      })
+      .end();
   }
 }
 

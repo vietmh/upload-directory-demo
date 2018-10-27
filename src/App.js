@@ -19,7 +19,9 @@ class App extends Component {
         <header>
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <ZippingUploader url="localhost:9292/v1/samples/upload"/>
+        <ZippingUploader {...{
+          url: "localhost:9292/v1/samples/upload"
+        }}/>
       </div>
     );
   }

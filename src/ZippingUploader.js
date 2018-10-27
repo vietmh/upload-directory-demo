@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-// import saveAs from 'file-saver';
 import { Modal } from 'antd';
 
 import FileSelector from './FileSelector';
@@ -15,19 +14,35 @@ const { fromEvent } = require('file-selector');
 
 class ZippingUploader extends Component {
 
+  /** TODO : 
+   * Automatically set file name
+   *  files / folders with a root directory
+   *  no root -> file name = `date`.zip */
+
   constructor(props) {
     super(props);
     this.state = {
       url: '',
+      headers: {
+        'Content-Type': 'application/zip'
+      },
       files: [],
       visible: false
     }
   }
 
   componentDidMount() {
-    this.setState({
-      url: this.props.url
-    });
+    if (this.props.url !== undefined) {
+      this.setState({
+        url: this.props.url
+      });
+    }
+
+    if (this.props.headers !== undefined) {
+      this.setState({
+        headers: this.props.headers
+      });
+    }
   }
 
   onDrop = (files) => {
@@ -46,7 +61,10 @@ class ZippingUploader extends Component {
   }
 
   zipThenUploadFile(files) {
-    let url = this.state.url;
+    const url = this.state.url;
+    const headers = this.state.headers;
+    const fileName = (new Date()).getTime() + '.zip';
+
     for (let index = 0; index < files.length; index++) {
       const file = files[index];
       let directories = Utility.getFoldersArray(file);
@@ -59,8 +77,7 @@ class ZippingUploader extends Component {
     }
     this.zip.generateAsync({ type: "blob" })
       .then(function (content) {
-        Utility.uploadFile(url, content);
-        // saveAs(content, "example.zip");
+        // Utility.uploadFile(url, headers, content);
       });
   }
 
