@@ -17,7 +17,9 @@ class ZippingUploader extends Component {
   /** TODO : 
    * Automatically set file name
    *  files / folders with a root directory
-   *  no root -> file name = `date`.zip */
+   *  no root -> file name = `date`.zip
+   * Preview: show list of upload files and their status (zipping, reading, uploading, ...)
+  **/
 
   constructor(props) {
     super(props);
@@ -27,7 +29,8 @@ class ZippingUploader extends Component {
         'Content-Type': 'application/zip'
       },
       files: [],
-      visible: false
+      visible: false,
+      uploadedFiles: [],
     }
   }
 
