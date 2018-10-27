@@ -77,7 +77,7 @@ class ZippingUploader extends Component {
     }
     this.zip.generateAsync({ type: "blob" })
       .then(function (content) {
-        // Utility.uploadFile(url, headers, content);
+        Utility.uploadFile(url, headers, content);
       });
   }
 
