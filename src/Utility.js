@@ -19,10 +19,9 @@ class Utility {
   }
 
   static uploadFile(url, headers, file) {
-    const fileName = (new Date()).getTime() + '.zip';
     request.post(url)
       .set(headers)
-      .attach('files', file, fileName)
+      .attach('files', file.content, file.name)
       .then(res => {
         console.log(res);
       })
