@@ -18,12 +18,16 @@ class Utility {
     return this.getListFolders(this.getFolderPath(filePath));
   }
 
-  static uploadFile(url, headers, file) {
+  static uploadFile(url, headers, file, callback) {
     request.post(url)
       .set(headers)
       .attach('files', file.content, file.name)
+      .on('progress', function (e) {
+        // console.log('Percentage done: ', e.target);
+        // console.log('Percentage done: ', e.percent);
+      })
       .then(res => {
-        console.log(res);
+          callback(file, res);
       })
       .end();
   }

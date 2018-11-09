@@ -87,7 +87,7 @@ class FileSelector extends Component {
   }
 
   submitFiles = () => {
-    this.props.fileSubmissionHandler(this.state.data);
+    this.props.onSubmit(this.state.data);
   }
 
   render() {
