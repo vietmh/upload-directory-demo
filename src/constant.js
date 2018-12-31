@@ -2,7 +2,8 @@ const constants = {
   statusDone: 'done',
   statusRemoved: 'removed',
   statusUploading: 'uploading',
-  statusError: 'error'
+  statusError: 'error',
+  rootFolder: 'root'
 };
 
 export default constants;

@@ -38,6 +38,8 @@ class FileSelector extends Component {
       };
       this.build(tree, directoryList, fileObj);
     }
+    if (tree[0].children.length === 1)
+      tree = tree[0].children;
     await this.setState({ data: tree });
   }
 

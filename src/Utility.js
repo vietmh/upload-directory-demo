@@ -1,5 +1,6 @@
 
 import request from "superagent";
+import constants from './constant';
 
 class Utility {
   static getFolderPath(file) {
@@ -10,7 +11,7 @@ class Utility {
 
   static getListFolders(directoryPath) {
     let directoryList = directoryPath.split('/').filter(folder => folder.length > 0);
-    directoryList.unshift("root");
+    directoryList.unshift(constants.rootFolder);
     return directoryList;
   }
 
@@ -18,16 +19,19 @@ class Utility {
     return this.getListFolders(this.getFolderPath(filePath));
   }
 
-  static uploadFile(url, headers, file, callback) {
+  static uploadFile(url, headers, file, onChanged, onDone, state) {
     request.post(url)
       .set(headers)
       .attach('files', file.content, file.name)
       .on('progress', function (e) {
-        // console.log('Percentage done: ', e.target);
-        // console.log('Percentage done: ', e.percent);
+        state.setState({
+          loadingText: "Uploading file ... " + e.percent.toFixed(2) + " %"
+        });
+        file.status = constants.statusUploading;
+        onChanged(file, null);
       })
       .then(res => {
-          callback(file, res);
+        onDone(file, res);
       })
       .end();
   }
