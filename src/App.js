@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ZippingUploader from './ZippingUploader';
+import ZippingUploader from './lib/ZippingUploader';
 
 class App extends Component {
 
